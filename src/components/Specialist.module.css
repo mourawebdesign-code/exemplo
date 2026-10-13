@@ -1,0 +1,119 @@
+/* 05 — Especialista. Protagonista: foto da especialista (recorte sobre o
+   fundo da seção) + coluna de texto com respiro generoso, formações e
+   indicadores de experiência. */
+.section{padding:calc(var(--section-space) / 2) var(--gutter);background:var(--page);}
+.inner{max-width:var(--container);margin-inline:auto;}
+
+.grid{display:grid;grid-template-columns:560px minmax(0,1fr);gap:80px;align-items:start;}
+.mediaCol,.copy{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);
+}
+.copy{transition-delay:.08s;}
+.visible .mediaCol,.visible .copy{opacity:1;transform:none;}
+
+.mediaCol{position:relative;align-self:center;}
+/* Foto da especialista: recorte transparente (sem moldura arredondada), com
+   o pé do sofá se dissolvendo no fundo da seção. */
+.portrait{position:relative;width:min(100%,440px);margin-inline:auto;aspect-ratio:763/1036;}
+.portraitImg{
+  object-fit:contain;object-position:center;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 72%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 72%,transparent 100%);
+}
+
+.copy{padding-top:8px;}
+.name{margin-top:18px;font-size:48px;line-height:56px;font-weight:600;letter-spacing:-0.9px;}
+.role{margin-top:8px;font-size:17px;line-height:26px;font-weight:600;color:var(--violet);}
+
+.quote{
+  margin:32px 0 0;padding-left:24px;border-left:2px solid var(--violet);
+  font-family:var(--font-head);font-weight:600;
+  font-size:24px;line-height:34px;letter-spacing:-0.4px;color:var(--ink);
+  max-width:600px;
+}
+.bio{margin-top:28px;font-size:16px;line-height:26px;letter-spacing:-0.32px;color:var(--muted);max-width:560px;}
+
+.credentials{
+  margin-top:48px;padding-top:32px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;max-width:560px;
+}
+.row,.stat{
+  opacity:0;transform:translateY(14px);
+  transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(.1s + var(--i) * 90ms);
+}
+.row{padding:14px 0;border-bottom:1px solid var(--line);}
+.visible .row,.visible .stat{opacity:1;transform:none;}
+.text{font-size:15.5px;line-height:24px;letter-spacing:-0.3px;color:var(--ink);}
+
+.stats{margin:40px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;max-width:560px;}
+.stat{margin:0;}
+.statValue{
+  font-family:var(--font-head);font-weight:600;font-size:40px;line-height:48px;
+  letter-spacing:-0.9px;color:var(--violet);
+}
+.statLabel{margin:4px 0 0;font-size:14px;line-height:20px;letter-spacing:-0.28px;color:var(--muted);}
+
+@media (max-width:1279px){
+  .grid{grid-template-columns:460px minmax(0,1fr);gap:48px;}
+  .name{font-size:40px;line-height:48px;}
+  .quote{font-size:21px;line-height:30px;}
+  .bio{width:auto;}
+}
+@media (max-width:1023px){
+  .grid{grid-template-columns:1fr;gap:64px;}
+  .mediaCol{width:100%;max-width:560px;margin-inline:auto;}
+}
+@media (max-width:380px){
+  .statValue{font-size:26px;line-height:34px;}
+  .stats{gap:12px;}
+}
+@media (max-width:767px){
+  /* Foto já dissolve na base: espaço menor até o texto. */
+  .grid{gap:24px;}
+  .name{font-size:32px;line-height:40px;}
+  .quote{font-size:19px;line-height:28px;padding-left:18px;}
+  .credentials{grid-template-columns:1fr;}
+  .stats{gap:16px;}
+  .statValue{font-size:30px;line-height:38px;}
+  .statLabel{font-size:13px;line-height:18px;}
+}
+
+/* ===== Mobile: nome no mesmo padrão de título das demais seções ===== */
+@media (max-width:767px){
+  .name{font-family:var(--font-grotesk);font-weight:800;text-transform:none;font-size:clamp(28px,8vw,34px);line-height:1.12;letter-spacing:-0.02em;}
+}
+
+/* ===== Formações em uma única linha horizontal, separadas por ponto ===== */
+.credentials{display:flex;flex-wrap:wrap;align-items:center;column-gap:0;row-gap:8px;max-width:none;}
+.row{padding:0;border-bottom:0;white-space:nowrap;display:flex;align-items:center;}
+.row + .row::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--violet);margin-inline:9px;flex:none;}
+.text{font-size:13.5px;letter-spacing:-0.2px;}
+/* Coluna de texto um pouco mais larga para a linha de formações caber. */
+@media (min-width:1280px){
+  .grid{grid-template-columns:540px minmax(0,1fr);gap:64px;}
+}
+@media (min-width:1024px) and (max-width:1279px){
+  .grid{grid-template-columns:440px minmax(0,1fr);gap:40px;}
+}
+@media (max-width:1279px){
+  .row + .row::before{margin-inline:8px;}
+  .text{font-size:12.5px;}
+}
+@media (max-width:767px){
+  /* Não cabe em 1 linha num celular: quebra naturalmente, mantendo o ritmo horizontal. */
+  .credentials{flex-wrap:wrap;row-gap:10px;}
+}
+
+/* ===== Formações e números de autoridade centralizados na coluna ===== */
+.credentials{justify-content:center;}
+.stats{margin-inline:auto;text-align:center;}
+@media (max-width:767px){
+  .credentials{justify-content:center;text-align:center;}
+}
+
+/* ===== Mobile: eyebrow, nome e cargo centralizados ===== */
+@media (max-width:767px){
+  .copy > :global(.eyebrow),.name,.role{display:block;text-align:center;}
+}

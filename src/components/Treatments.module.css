@@ -1,0 +1,143 @@
+/* 03 — Tratamentos. Fundo claro contínuo (mesmo token --page usado em
+   Especialista/Ruptura) para eliminar o corte de cor entre as seções.
+   Cabeçalho único centralizado (eyebrow + headline + descrição) seguido por
+   uma fileira de 4 cards grandes, num wrapper independente e mais largo —
+   preparado para virar carrossel horizontal no futuro sem precisar remexer
+   a estrutura. */
+.section{background:var(--page);padding:calc(var(--section-space) / 2) var(--gutter);}
+
+.heading{max-width:900px;margin:0 auto;text-align:center;}
+.eyebrow{
+  display:inline-block;
+  font-family:var(--font-body);font-size:14px;line-height:22px;font-weight:700;
+  letter-spacing:0.56px;text-transform:uppercase;color:var(--violet);
+}
+.title{
+  margin-top:20px;
+  font-family:var(--font-grotesk);font-weight:800;text-transform:uppercase;
+  font-size:clamp(52px,4.5vw,72px);line-height:0.98;letter-spacing:-0.02em;
+}
+.line1,.line2{display:block;white-space:nowrap;}
+.line1{color:var(--ink);}
+.line2{color:var(--violet);}
+.body{
+  margin:28px auto 0;max-width:680px;
+  font-size:17px;line-height:26px;letter-spacing:-0.32px;color:var(--muted);
+}
+/* Desktop/tablet: descrição em uma única linha. */
+.body{max-width:none;white-space:nowrap;}
+.bodyShort{display:none;}
+
+/* Full-bleed: anula o gutter lateral da seção só aqui, com margem negativa
+   igual ao padding (em vez de width:100vw, que inclui a barra de rolagem e
+   estourava a largura). overflow:hidden fica só neste viewport. */
+.viewport{
+  margin-inline:calc(var(--gutter) * -1);margin-top:64px;
+  overflow:hidden;cursor:grab;touch-action:pan-y;
+  opacity:0;transition:opacity .8s cubic-bezier(.16,1,.3,1);
+}
+.viewport:active{cursor:grabbing;}
+.viewport.visible{opacity:1;}
+.track{
+  display:flex;gap:24px;width:max-content;padding-inline:24px;
+  will-change:transform;
+}
+.tile{
+  position:relative;overflow:hidden;border-radius:28px;background:var(--violet-ink);
+  flex:0 0 auto;width:360px;height:480px;
+  user-select:none;-webkit-user-drag:none;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(var(--i) * 80ms);
+}
+.visible .tile{opacity:1;transform:none;}
+
+.tileImg{object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1);-webkit-user-drag:none;}
+.tile:hover .tileImg{transform:scale(1.03);}
+.tileOverlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(46,33,27,0) 42%,rgba(46,33,27,.8) 100%);
+}
+.tileBody{position:absolute;left:26px;right:26px;bottom:26px;z-index:2;}
+.tileName{color:#fff;font-family:var(--font-head);font-weight:600;font-size:23px;line-height:29px;letter-spacing:-0.3px;}
+.tileText{margin-top:10px;width:100%;font-size:15px;line-height:22px;color:rgba(255,255,255,.78);}
+
+/* ::before amplia a área de toque (≥44px) sem mexer no visual do link. */
+.learnMore::before{content:"";position:absolute;inset:-14px -10px;}
+.learnMore{
+  position:relative;
+  margin-top:16px;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:0.03em;color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:2px;
+  transition:opacity .25s ease,border-color .25s ease;
+}
+.learnMore:hover{opacity:.75;border-color:#fff;}
+.learnMore svg{transition:transform .25s ease;}
+.learnMore:hover svg{transform:translate(2px,-2px);}
+
+/* Todos os protocolos: pílulas no mesmo vocabulário visual do FAQ/Location
+   (borda --line, fundo branco, hover escurece), em duas colunas. */
+.protocols{
+  max-width:1120px;margin:clamp(56px,6vw,88px) auto 0;text-align:center;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);
+}
+.protocols.visible{opacity:1;transform:none;}
+.protocolsTitle{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(24px,2.2vw,32px);line-height:1.15;letter-spacing:-0.6px;color:var(--ink);
+}
+.protocolsHint{margin-top:10px;font-size:16px;line-height:24px;color:var(--muted);}
+.protocolGroups{
+  margin-top:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;text-align:left;
+}
+.protocolGroup{
+  padding:28px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--white);
+}
+.protocolLabel{
+  display:block;font-family:var(--font-body);font-weight:700;font-size:12px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--violet);
+}
+.chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;}
+.chip{
+  position:relative;display:inline-flex;align-items:center;min-height:40px;padding:0 16px;
+  border:1px solid var(--line);border-radius:var(--r-pill);background:var(--page);
+  font-family:var(--font-body);font-weight:600;font-size:14px;line-height:1;color:var(--ink);
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease,transform .25s ease;
+}
+.chip:hover{background:var(--ink);border-color:var(--ink);color:var(--white);transform:translateY(-1px);}
+.chip:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
+
+@media (max-width:1279px){
+  .title{font-size:clamp(44px,5vw,60px);}
+  .viewport{margin-top:56px;}
+  .tile{width:320px;height:440px;}
+}
+@media (max-width:1023px){
+  .heading{max-width:640px;}
+  .body{font-size:15px;line-height:24px;letter-spacing:-0.3px;}
+  .viewport{margin-top:48px;}
+  .track{gap:18px;padding-inline:var(--gutter);}
+  .tile{width:300px;height:420px;}
+}
+@media (max-width:900px){
+  .protocolGroups{grid-template-columns:1fr;}
+}
+@media (max-width:767px){
+  .protocolGroup{padding:22px 18px;}
+  .chip{min-height:42px;font-size:14px;}
+  .title{font-size:clamp(32px,9vw,42px);line-height:1.08;}
+  .line1,.line2{white-space:normal;}
+  .body{font-size:15px;}
+  .bodyFull{display:none;}
+  .bodyShort{display:inline;}
+  .viewport{margin-top:40px;}
+  .track{gap:14px;padding-inline:var(--gutter);}
+  .tile{width:min(76vw,300px);height:400px;}
+}
+
+/* ===== Mobile: sistema único de títulos/eyebrow (não afeta ≥768px) ===== */
+@media (max-width:767px){
+  .title{font-family:var(--font-grotesk);font-weight:800;text-transform:none;font-size:clamp(28px,8vw,34px);line-height:1.12;letter-spacing:-0.02em;margin-top:16px;}
+  .eyebrow{font-size:13px;line-height:16px;letter-spacing:0.12em;}
+}

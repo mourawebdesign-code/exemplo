@@ -1,0 +1,108 @@
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:30px var(--gutter);
+  transition:background-color .4s ease,box-shadow .4s ease,backdrop-filter .4s ease,padding .4s ease;
+}
+.scrolled{
+  padding:16px var(--gutter);
+  background:rgba(255,255,255,.86);
+  backdrop-filter:saturate(180%) blur(14px);
+  box-shadow:0 1px 0 var(--line);
+}
+.inner{
+  max-width:1320px;margin-inline:auto;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;
+}
+.logo{display:flex;align-items:center;flex:0 0 auto;}
+.logoMark{
+  height:50px;width:186px;object-fit:contain;object-position:left center;
+  /* Hero agora é um gradiente radial claro (branco->roxo), não mais foto
+     escura — a logo fica na cor original (violeta) o tempo todo, sem
+     inverter para branco. */
+  transition:filter .4s ease;
+}
+
+.nav{display:flex;align-items:center;gap:38px;justify-self:center;}
+.link{
+  font-family:var(--font-grotesk);font-size:14.5px;font-weight:600;line-height:22px;
+  letter-spacing:0.02em;color:var(--ink);position:relative;
+  transition:color .4s ease;
+}
+.link::after{
+  content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .28s cubic-bezier(.22,1,.36,1);
+}
+.link:hover{opacity:1;color:var(--violet);}
+.link:hover::after{transform:scaleX(1);}
+
+.cta{justify-self:end;flex:0 0 auto;min-width:0;padding-inline:26px;font-family:var(--font-grotesk);}
+
+/* Botão de menu (mobile): duas barras de comprimentos diferentes, alinhadas à
+   direita, que viram um X ao abrir. Alvo de toque de 44x44. */
+.burger{
+  display:none;width:44px;height:44px;margin-right:-10px;
+  flex-direction:column;align-items:flex-end;justify-content:center;gap:7px;justify-self:end;
+  -webkit-tap-highlight-color:transparent;
+}
+.burger:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:8px;}
+.bar{
+  display:block;height:1.5px;background:var(--ink);border-radius:2px;margin-right:10px;
+  transition:transform .35s cubic-bezier(.16,1,.3,1),width .35s cubic-bezier(.16,1,.3,1);
+}
+.barTop{width:24px;}
+.barBot{width:15px;}
+.burger:hover .barBot{width:24px;}
+.barTopOpen{transform:translateY(4.25px) rotate(45deg);width:24px;}
+.barBotOpen{transform:translateY(-4.25px) rotate(-45deg);width:24px;}
+
+/* Painel: preso ao fim do cabeçalho (top:100%), então acompanha qualquer
+   altura dele. Abre com o cabeçalho em fundo sólido. */
+.menuOpen{background:var(--white);box-shadow:0 1px 0 var(--line);}
+.mobile{
+  position:absolute;top:100%;left:0;right:0;background:var(--white);
+  display:flex;flex-direction:column;padding:8px var(--gutter) calc(28px + env(safe-area-inset-bottom,0px));
+  border-bottom:1px solid var(--line);
+  max-height:calc(100dvh - 100%);overflow-y:auto;
+  transform:translateY(-8px);opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease,transform .3s cubic-bezier(.16,1,.3,1),visibility 0s linear .3s;
+}
+.mobileOpen{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition-delay:0s;}
+.mobileLink{
+  font-family:var(--font-head);font-size:24px;line-height:32px;font-weight:600;letter-spacing:-0.4px;color:var(--ink);
+  padding:18px 0;border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .35s ease,transform .35s cubic-bezier(.16,1,.3,1),color .2s ease;
+}
+.mobileOpen .mobileLink{opacity:1;transform:none;transition-delay:calc(.04s + var(--i) * 45ms);}
+.mobileLink:active{color:var(--violet);}
+.mobileCta{margin-top:26px;width:100%;height:52px;font-family:var(--font-grotesk);}
+
+.backdrop{
+  position:absolute;top:100%;left:0;right:0;height:100dvh;z-index:-1;background:rgba(46,33,27,.38);
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s;
+}
+.backdropOpen{opacity:1;visibility:visible;transition-delay:0s;}
+
+@media (max-width:1279px){
+  .nav{gap:26px;}
+  .link{font-size:13.5px;}
+  .cta{padding-inline:20px;}
+}
+@media (max-width:1023px){
+  .header{padding:22px var(--gutter);}
+  .scrolled{padding:14px var(--gutter);}
+  .inner{grid-template-columns:auto auto;}
+  .logoMark{height:40px;width:149px;}
+  .nav,.cta{display:none;}
+  .burger{display:flex;}
+}
+@media (max-width:767px){
+  /* Respeita o notch/status bar em aparelhos com safe-area. */
+  .header{padding-top:calc(22px + env(safe-area-inset-top,0px));}
+  .scrolled{padding-top:calc(14px + env(safe-area-inset-top,0px));}
+}
+@media (min-width:1024px){ .mobile,.backdrop{display:none;} }
+@media (prefers-reduced-motion:reduce){
+  .mobile,.mobileLink,.backdrop,.bar{transition:none;}
+}

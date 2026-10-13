@@ -1,0 +1,76 @@
+/* 08 — Experiência Luméa. Leque de fotos + jornada em 4 etapas conectadas
+   por uma linha horizontal (desktop) / vertical (mobile). */
+.section{padding:calc(var(--section-space) / 2) var(--gutter);background:var(--white);overflow:hidden;}
+.inner{max-width:var(--container);margin-inline:auto;}
+.head{
+  text-align:center;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+}
+.visible .head{opacity:1;transform:none;}
+.heading{margin:14px auto 0;font-size:34px;line-height:44px;font-weight:600;letter-spacing:-0.6px;width:560px;max-width:100%;}
+.body{margin:16px auto 0;max-width:600px;font-size:16px;line-height:25px;color:var(--muted);}
+
+.stageWrap{display:flex;justify-content:center;margin-top:64px;}
+.stage{position:relative;}
+.card{
+  position:absolute;left:50%;top:50%;
+  border-radius:var(--r-lg);overflow:hidden;background:var(--page);
+  transform-origin:center center;
+  transition:transform 320ms cubic-bezier(.22,1,.36,1),z-index 0ms;
+  box-shadow:0 20px 40px -18px rgba(46,33,27,.32),0 6px 16px -8px rgba(46,33,27,.18);
+  cursor:pointer;outline:none;
+}
+.card:focus-visible{box-shadow:0 0 0 3px var(--violet),0 20px 40px -18px rgba(46,33,27,.32);}
+.img{object-fit:cover;pointer-events:none;}
+
+.journey{
+  list-style:none;margin:64px 0 0;padding:32px 0 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;
+}
+.step{
+  position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(.15s + var(--i) * 120ms);
+}
+.visible .step{opacity:1;transform:none;}
+
+.marker{position:relative;width:100%;height:11px;margin-bottom:28px;}
+.dot{
+  position:absolute;left:50%;top:0;margin-left:-5.5px;width:11px;height:11px;border-radius:50%;
+  background:var(--white);border:1.5px solid var(--violet);z-index:1;
+}
+.line{
+  position:absolute;left:50%;width:calc(100% + 32px);top:5px;height:1px;background:var(--line);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .7s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(.3s + var(--i) * 120ms);
+}
+.visible .line{transform:scaleX(1);}
+.step:last-child .line{display:none;}
+
+.n{font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:0.08em;color:var(--violet);}
+.title{margin:8px 0 0;font-family:var(--font-head);font-weight:600;font-size:19px;line-height:26px;letter-spacing:-0.3px;color:var(--ink);}
+.text{margin:10px auto 0;font-size:14.5px;line-height:22px;color:var(--muted);max-width:260px;}
+
+@media (max-width:1023px){
+  .heading{font-size:28px;line-height:36px;}
+  .journey{grid-template-columns:1fr;gap:0;margin-top:48px;max-width:520px;margin-inline:auto;}
+  .step{padding:0 0 36px 40px;align-items:flex-start;text-align:left;}
+  .step:last-child{padding-bottom:0;}
+  .marker{position:absolute;left:0;top:4px;bottom:0;height:auto;margin:0;width:11px;}
+  .dot{left:0;margin-left:0;}
+  .line{left:5px;top:15px;bottom:-4px;width:1px;height:auto;transform:scaleY(0);transform-origin:top;}
+  .visible .line{transform:scaleY(1);}
+  .text{max-width:none;margin-inline:0;}
+}
+@media (max-width:767px){
+  .stageWrap{margin-top:40px;}
+}
+
+/* ===== Mobile: título único, fundo lilás (alternância de ritmo) ===== */
+@media (max-width:767px){
+  .section{background:var(--page);}
+  .heading{font-family:var(--font-grotesk);font-weight:800;text-transform:none;font-size:clamp(28px,8vw,34px);line-height:1.12;letter-spacing:-0.02em;}
+}

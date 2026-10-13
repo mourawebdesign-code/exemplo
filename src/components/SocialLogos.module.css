@@ -1,0 +1,14 @@
+/* Logos sociais do rodapé: monocromáticos, pequenos, sem fundo. Todos com o
+   mesmo box de 20px para peso visual equilibrado; hover só muda a cor. */
+.list{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;}
+.link{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;color:var(--muted-2);cursor:pointer;
+  transition:color .25s ease;
+}
+.link:hover,.link:focus-visible{color:var(--violet);}
+.link:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px;}
+.link svg{display:block;}
+/* Área de toque de 44px sem mudar o tamanho do logo. */
+.link{position:relative;}
+.link::before{content:"";position:absolute;inset:-12px;}

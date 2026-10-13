@@ -1,0 +1,143 @@
+/* Hero. Canvas de referência 2252x1080 com aspect-ratio travado: filhos em %
+   (posição/tamanho) e vw (tipografia), com clamp() só para não quebrar entre
+   1024px e o mínimo desktop. Abaixo de 1024px a mesma cena é remontada num
+   palco proporcional (--u). */
+.section{
+  position:relative;
+  width:100%;
+  background:#fff;
+  /* Respiro fixo pra navbar (fixed/overlay). */
+  padding-top:clamp(100px,7.4vw,150px);
+}
+.canvas{
+  position:relative;
+  aspect-ratio:2252/1080;
+  width:100%;
+  overflow:hidden;
+}
+
+.gradientBg{
+  position:absolute;inset:0;z-index:0;
+  background-image:url(/images/spapaulamelo/hero/gradient-bg.svg);
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+
+/* h1 só agrupa; os dois textos se posicionam contra o canvas. */
+.headline{position:absolute;inset:0;z-index:1;margin:0;pointer-events:none;}
+
+.lead,.word{
+  position:absolute;left:0;right:0;
+  display:block;margin:0;text-align:center;
+  font-family:var(--font-hero-title,var(--font-grotesk));
+  font-weight:800;text-transform:uppercase;white-space:nowrap;
+  letter-spacing:-0.04em;
+}
+.lead{
+  top:5.6%;z-index:2;
+  font-size:clamp(26px,4.3vw,88px);line-height:0.98;
+  color:var(--ink);
+}
+/* Palavra gigante: fica acima da cabeça. A cabeça (z-index maior) só cobre a
+   base das letras centrais — legível por inteiro. */
+.word{
+  top:14.5%;z-index:1;
+  font-size:clamp(64px,14.2vw,320px);line-height:0.94;
+  color:var(--violet);
+}
+
+/* Retrato (recorte 1485x1708). Largura 40%: a cabeça fica centrada e começa
+   logo abaixo da palavra; o corpo sai pela base e some no glow. */
+.portrait{
+  position:absolute;z-index:4;
+  left:30%;top:34.5%;
+  width:40%;aspect-ratio:1485/1708;
+  pointer-events:none;
+}
+.portraitImg{object-fit:cover;object-position:top center;}
+
+/* Glow branco desfocado atrás do rodapé da composição. */
+.glow{
+  position:absolute;z-index:5;
+  left:-12.611%;top:74.722%;
+  width:106.217%;height:53.148%;
+  pointer-events:none;
+}
+.glowInner{position:absolute;inset:-35.07% -8.42%;}
+.glowImg{object-fit:contain;}
+
+.footer{
+  position:absolute;z-index:6;
+  left:50%;top:80.5%;width:max(460px,30%);
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;
+}
+.body{
+  margin:0;text-align:center;
+  font-family:var(--font-grotesk);font-weight:500;
+  font-size:clamp(14px,0.9vw,19px);
+  line-height:1.5;text-wrap:balance;
+  color:var(--ink);
+}
+
+.actions{
+  margin-top:clamp(14px,1.9vw,40px);
+  display:flex;align-items:center;gap:28px;white-space:nowrap;
+}
+.primary{
+  padding-inline:clamp(22px,1.51vw,34px);height:clamp(40px,4.6vh,54px);
+  font-family:var(--font-display),var(--font-grotesk);
+  font-size:clamp(11px,0.555vw,12.5px);letter-spacing:0.09em;
+  transition:background-color .3s ease,transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease;
+}
+.primary:hover{transform:translateY(-2px);box-shadow:0 14px 28px -12px rgba(46,33,27,.35);}
+.ghost{
+  font-family:var(--font-display),var(--font-grotesk);
+  font-size:clamp(13px,0.666vw,15px);
+}
+
+/* ===== ≤1023px: o mesmo palco, proporcional (--u = 1% da largura, limitado a
+   6.4px). Frase e palavra no topo, retrato logo abaixo (a cabeça entra pela
+   base das letras), descrição e botões na base sobre um degradê branco. ===== */
+@media (max-width:1023px){
+  .section{padding-top:0;--u:min(1vw,6.4px);}
+  .canvas{
+    aspect-ratio:auto;height:calc(var(--u) * 176);
+    display:block;
+  }
+  .canvas::after{
+    content:"";position:absolute;z-index:5;left:0;right:0;bottom:0;height:calc(var(--u) * 62);
+    pointer-events:none;
+    background:linear-gradient(to top,#fff 0%,#fff 52%,rgba(255,255,255,.78) 66%,rgba(255,255,255,.36) 82%,rgba(255,255,255,0) 100%);
+  }
+  .gradientBg{background-position:center;}
+
+  .lead{
+    top:calc(var(--u) * 27);
+    padding-inline:calc(var(--u) * 3);
+    font-size:calc(var(--u) * 7.7);line-height:1;
+    white-space:normal;text-wrap:balance;
+  }
+  .word{
+    top:calc(var(--u) * 44.5);
+    font-size:calc(var(--u) * 19.6);line-height:.94;letter-spacing:-0.045em;
+  }
+  .portrait{
+    left:calc(50% - var(--u) * 37);top:calc(var(--u) * 58);
+    width:calc(var(--u) * 74);
+  }
+  .glow{display:none;}
+  .footer{
+    left:50%;top:auto;bottom:max(36px,calc(var(--u) * 9));
+    transform:translateX(-50%);width:calc(var(--u) * 88);max-width:none;
+  }
+  .body{font-size:clamp(14px,calc(var(--u) * 3.9),16px);}
+  .actions{margin-top:calc(var(--u) * 4.5);gap:calc(var(--u) * 5);flex-wrap:nowrap;justify-content:center;}
+}
+@media (max-width:359px){
+  .actions{flex-direction:column;gap:14px;}
+  .primary{padding-inline:22px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .primary{transition:none;}
+}

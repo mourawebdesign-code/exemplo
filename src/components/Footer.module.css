@@ -1,0 +1,157 @@
+/* Footer editorial premium — referência AURA: container bem mais largo que
+   o resto do site (--container global não é tocado, fica isolado aqui),
+   com bastante respiro vertical. */
+.footer{background:var(--page);padding-top:calc(var(--section-space) / 2);}
+.inner{max-width:1480px;margin-inline:auto;padding-inline:clamp(20px,6vw,96px);}
+
+.top{
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:56px 64px;
+}
+.navGroup{display:flex;flex-wrap:wrap;gap:56px 64px;}
+
+/* Reveal progressivo: marca primeiro, colunas em seguida com stagger.
+   O wordmark é só opacity (sem transform) — permanece discreto, não
+   "desliza" pela tela. */
+.brand,.col{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+}
+.col{transition-delay:calc(var(--i) * 90ms);}
+.visible.top .brand,.visible.top .col{opacity:1;transform:none;}
+
+.brand{flex:1 1 320px;max-width:400px;}
+.logo{height:46px;width:171px;object-fit:contain;object-position:left center;}
+.institutional{
+  margin-top:16px;font-family:var(--font-body);font-weight:700;font-size:12px;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-2);
+}
+.headline{
+  margin-top:12px;
+  font-family:var(--font-head);font-weight:600;
+  font-size:28px;line-height:34px;letter-spacing:-0.4px;color:var(--ink);
+}
+.headlineAccent{color:var(--violet);}
+.address{
+  margin-top:20px;font-size:15px;line-height:24px;letter-spacing:-0.28px;
+  color:var(--muted);white-space:pre-line;
+}
+
+.col{flex:0 0 auto;min-width:150px;}
+.colHeading{
+  font-family:var(--font-head);font-weight:600;
+  font-size:18px;line-height:24px;letter-spacing:-0.3px;color:var(--ink);
+}
+.colLinks{margin-top:20px;display:flex;flex-direction:column;gap:14px;}
+.link{
+  width:fit-content;
+  font-size:15px;line-height:22px;letter-spacing:-0.2px;color:var(--muted);
+  transition:color .22s ease;
+}
+.link:hover{color:var(--violet);}
+
+.divider{
+  margin-top:clamp(40px,6vw,72px);
+  height:1px;background:var(--line);
+}
+
+.bottom{
+  padding-block:28px;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;
+}
+.copy{font-size:13px;line-height:20px;color:var(--muted);}
+.legal{display:flex;flex-wrap:wrap;align-items:center;}
+.legalItem{display:inline-flex;align-items:center;}
+.dot{margin:0 10px;color:var(--muted-2);}
+.legalLink{font-size:13px;line-height:20px;color:var(--muted);transition:color .22s ease;}
+.legalLink:hover{color:var(--violet);}
+/* Nota discreta de portfólio — mesmo peso visual da linha jurídica ao
+   redor dela, não um aviso/banner. */
+.conceptNote{font-size:13px;line-height:20px;color:var(--muted-2);}
+
+@media (max-width:1279px){
+  /* marca em linha própria (largura cheia) e o grupo de navegação reflui
+     por conta própria logo abaixo — evita que a última coluna (Contato)
+     fique sozinha numa 2ª linha por falta de espaço ao lado das outras
+     duas, já que agora ela não compete com a marca pela mesma linha. */
+  .headline{font-size:26px;line-height:32px;}
+  .top{gap:36px 40px;}
+  .brand{flex-basis:100%;max-width:440px;}
+  .col{min-width:130px;}
+}
+@media (max-width:1023px){
+  .col{min-width:120px;}
+}
+@media (max-width:767px){
+  .top{flex-direction:column;gap:36px;}
+  .navGroup{gap:32px 40px;}
+  .brand{max-width:100%;}
+  .headline{font-size:24px;line-height:30px;}
+  .col{min-width:0;}
+  /* Links com altura de toque ≥44px (padding em vez de gap entre eles). */
+  .colLinks{gap:0;margin-top:12px;}
+  .link{padding-block:11px;}
+  /* Reserva espaço no fim para o WhatsApp flutuante não cobrir a linha legal. */
+  .bottom{flex-direction:column;align-items:flex-start;gap:10px;padding-block:24px calc(88px + env(safe-area-inset-bottom,0px));}
+  .legalLink{display:inline-block;padding-block:8px;}
+}
+
+/* ===== Mobile: margem de 20px e colunas de navegação em grade de 2 ===== */
+@media (max-width:767px){
+  .inner{padding-inline:var(--gutter);}
+  .navGroup{display:grid;grid-template-columns:1fr 1fr;gap:28px 24px;}
+}
+
+/* ===== Layout em grade: marca à esquerda, 3 colunas de links à direita,
+   usando toda a largura (antes empilhava e deixava a horizontal vazia) ===== */
+@media (min-width:768px){
+  .top{
+    display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.85fr);
+    gap:48px clamp(40px,7vw,120px);align-items:start;
+  }
+  .brand{flex:none;max-width:420px;}
+  .navGroup{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px clamp(24px,3vw,56px);
+    padding-top:6px;
+  }
+  .col{min-width:0;}
+  .link{width:auto;}
+}
+@media (max-width:767px){
+}
+
+/* Desktop: colunas de links encostam na borda direita, alinhadas ao
+   container, em vez de ficarem soltas no meio. */
+@media (min-width:1024px){
+  .top{grid-template-columns:minmax(0,1fr) auto;}
+  .navGroup{grid-template-columns:repeat(3,auto);column-gap:clamp(56px,7vw,120px);justify-content:end;}
+}
+
+/* ===== Tudo centralizado, usando a largura inteira: 4 colunas iguais no
+   desktop (marca + 3 grupos de links), cada uma com conteúdo ao centro ===== */
+.brand,.col,.bottom{text-align:center;}
+.logo{object-position:center;margin-inline:auto;display:block;}
+.address{margin-inline:auto;}
+.brand :global(ul),.brand ul{justify-content:center;}
+.colLinks{align-items:center;}
+.link{margin-inline:auto;}
+.legal{justify-content:center;}
+.bottom{justify-content:center;flex-direction:column;gap:8px;}
+.copy{display:block;}
+
+@media (min-width:1024px){
+  .top{grid-template-columns:1.4fr 1fr 1fr;gap:48px clamp(24px,3vw,56px);align-items:start;}
+  .brand{max-width:none;}
+  /* o grupo de navegação deixa de ser caixa e suas colunas viram colunas do grid */
+  .navGroup{display:contents;}
+  .col{padding-top:6px;}
+}
+@media (min-width:768px) and (max-width:1023px){
+  .top{grid-template-columns:1fr;gap:40px;}
+  .brand{max-width:none;}
+  .navGroup{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px;margin-inline:auto;width:100%;}
+}
+@media (max-width:767px){
+  .top{align-items:stretch;}
+  .navGroup{justify-items:center;}
+  .bottom{align-items:center;}
+}
